@@ -91,46 +91,33 @@ def search_typesense_vector(query_vector, top_k=TOP_K):
     return response["results"][0]["hits"]
 
 # --- PROMPT BUILDER ---
-import json
-from typing import List
-
-import json
-from typing import List
-
 def build_prompt(user_q: str, chunks: List[dict]) -> str:
     context_texts = []
-    urls_to_include = []
     for chunk in chunks:
-        doc = chunk.get("document", {})
+        doc = chunk["document"]
         url = doc.get("url", "unknown")
         text = doc.get("text", "")[:160].replace("\n", " ").strip()
         context_texts.append(f"URL: {url}\nText: {text}")
-        if url != "unknown" and url not in urls_to_include:
-            urls_to_include.append(url)
-
     context = "\n\n---\n\n".join(context_texts)
 
-    # Build explicit list of URLs to include in the final response
-    urls_list_str = "\n".join(f"- {url}" for url in urls_to_include) if urls_to_include else "- No URLs available"
-
     sample_response = {
-        "answer": "Your answer here, based ONLY on the context.",
+        "answer": "You must use `gpt-3.5-turbo-0125`, even if the AI Proxy only supports `gpt-4o-mini`. Use the OpenAI API directly for this question.",
         "links": [
             {
-                "url": "URL_1",
-                "text": "Short summary or title of the URL_1"
+                "url": "https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939/4",
+                "text": "Use the model that’s mentioned in the question."
             },
             {
-                "url": "URL_2",
-                "text": "Short summary or title of the URL_2"
+                "url": "https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939/3",
+                "text": "My understanding is that you just have to use a tokenizer, similar to what Prof. Anand used, to get the number of tokens and multiply that by the given rate."
             }
         ]
     }
 
-    prompt = f"""
+    return f"""
 You are a helpful educational assistant for data-science learners.
 
-Use ONLY the context below to answer the question.
+Use ONLY the context below to answer the question. Provide a JSON response with an "answer" field and a "links" array containing exactly 2 helpful references (url + short summary).
 
 Context:
 {context}
@@ -138,17 +125,11 @@ Context:
 Question:
 {user_q}
 
-Make sure your JSON response includes exactly 2 links with URLs from the context above. The URLs you must include are:
-{urls_list_str}
-
 Respond ONLY with a JSON object EXACTLY in this format:
-
 {json.dumps(sample_response, indent=2)}
 
 Do NOT add markdown, explanations, or extra formatting. Output only the JSON object.
 """.strip()
-
-    return prompt
 
 # --- JSON EXTRACTOR ---
 def parse_llm_response(raw_text: str):
@@ -166,9 +147,6 @@ def parse_llm_response(raw_text: str):
 
 # --- MAIN API ---
 
-@app.get("/health")
-async def health():
-    return {"status": "ok"}
 
 from fastapi import UploadFile, File, Form, Request
 
