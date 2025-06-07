@@ -147,6 +147,9 @@ def parse_llm_response(raw_text: str):
 
 # --- MAIN API ---
 
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
 
 from fastapi import UploadFile, File, Form, Request
 
