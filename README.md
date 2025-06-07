@@ -11,7 +11,7 @@ This project is a Virtual Teaching Assistant (TA) designed for the **Tools for D
 - RAG-based answering (using Typesense Indexing + Nomic Embedding)
 - Supports image (OCR) and text input
 - Promptfoo test suite for evaluation
-- Deployable on Render / can run locally with ngrok
+- Deployed on Render / can run locally with ngrok
 
 ---
 
