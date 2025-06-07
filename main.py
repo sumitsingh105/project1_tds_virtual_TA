@@ -94,21 +94,43 @@ def search_typesense_vector(query_vector, top_k=TOP_K):
 import json
 from typing import List
 
+import json
+from typing import List
+
 def build_prompt(user_q: str, chunks: List[dict]) -> str:
     context_texts = []
+    urls_to_include = []
     for chunk in chunks:
         doc = chunk.get("document", {})
         url = doc.get("url", "unknown")
         text = doc.get("text", "")[:160].replace("\n", " ").strip()
         context_texts.append(f"URL: {url}\nText: {text}")
+        if url != "unknown" and url not in urls_to_include:
+            urls_to_include.append(url)
+
     context = "\n\n---\n\n".join(context_texts)
 
-    # The prompt tells the model the exact JSON structure expected,
-    # but does NOT give a fixed example with actual content.
-    return f"""
+    # Build explicit list of URLs to include in the final response
+    urls_list_str = "\n".join(f"- {url}" for url in urls_to_include) if urls_to_include else "- No URLs available"
+
+    sample_response = {
+        "answer": "Your answer here, based ONLY on the context.",
+        "links": [
+            {
+                "url": "URL_1",
+                "text": "Short summary or title of the URL_1"
+            },
+            {
+                "url": "URL_2",
+                "text": "Short summary or title of the URL_2"
+            }
+        ]
+    }
+
+    prompt = f"""
 You are a helpful educational assistant for data-science learners.
 
-Use ONLY the context below to answer the question. Provide a JSON response with an "answer" field and a "links" array containing exactly 2 helpful references (each with "url" and "text").
+Use ONLY the context below to answer the question.
 
 Context:
 {context}
@@ -116,24 +138,17 @@ Context:
 Question:
 {user_q}
 
+Make sure your JSON response includes exactly 2 links with URLs from the context above. The URLs you must include are:
+{urls_list_str}
+
 Respond ONLY with a JSON object EXACTLY in this format:
 
-{{
-  "answer": "<your answer here>",
-  "links": [
-    {{
-      "url": "<url1>",
-      "text": "<short summary 1>"
-    }},
-    {{
-      "url": "<url2>",
-      "text": "<short summary 2>"
-    }}
-  ]
-}}
+{json.dumps(sample_response, indent=2)}
 
 Do NOT add markdown, explanations, or extra formatting. Output only the JSON object.
 """.strip()
+
+    return prompt
 
 # --- JSON EXTRACTOR ---
 def parse_llm_response(raw_text: str):
