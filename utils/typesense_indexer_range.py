@@ -16,7 +16,7 @@ if not (NOMIC_API_KEY and TYPESENSE_API_KEY):
 
 EMBED_DIM         = 768
 COLLECTION_NAME   = "tds_chunks"
-DATA_FILE         = "./combined_tds_rag_data2.json"
+DATA_FILE         = "/Users/sumitsingh/Desktop/IIT_Madras/TDS/Project1_TDS_Virtial_TA/data/combined_tds_rag_data2.json"
 BATCH_SIZE        = 32
 MAX_TEXT_LENGTH   = 5000
 
@@ -32,10 +32,15 @@ END_INDEX   = int(sys.argv[2])
 # 2. Connect to Typesense
 # ----------------------------------------------------------------------------
 client = typesense.Client({
-    "nodes": [{"host": "localhost", "port": "8108", "protocol": "http"}],
+    "nodes": [{
+        "host": os.getenv("TYPESENSE_HOST"),        # e.g., xyzabc.a1.typesense.net
+        "port": int(os.getenv("TYPESENSE_PORT")),   # usually 443 for https
+        "protocol": os.getenv("TYPESENSE_PROTOCOL") # "https"
+    }],
     "api_key": TYPESENSE_API_KEY,
     "connection_timeout_seconds": 10,
 })
+
 
 # Only create schema if this is the first chunk
 if START_INDEX == 0:
