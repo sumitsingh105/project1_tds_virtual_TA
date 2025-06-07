@@ -34,10 +34,10 @@ project-root/
 
 ## Main File
 ### For Discourse Content Scraping
-- discourse_scraper4
+- discourse_scraper4.py
 
 ### for Course Content Scraping
-- scrape_tds_content
+- scrape_tds_content.py
 
 ### for Nomic embedding and Typesense indexing script run this .sh file. These are in utils folder.
 - run_indexing_batches.sh
