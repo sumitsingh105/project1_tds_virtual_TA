@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-dotenv
+requests
+typesense
+pydantic
+numpy
+azure-ai-inference
+azure-core

@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+.bash_history
+.vscode/
+venv/
+__pycache__/
+venv/
+__pycache__/
