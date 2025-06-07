@@ -1,10 +1,20 @@
-venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+dist/
+build/
+venv/
+.env
+
+# macOS
 .DS_Store
-.bash_history
+
+# VSCode
 .vscode/
-venv/
-__pycache__/
-venv/
-__pycache__/
+
+# Logs
+*.log
+
+# Images (optional)
+*.webp
