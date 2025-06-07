@@ -16,10 +16,10 @@ from azure.core.credentials import AzureKeyCredential
 load_dotenv()
 
 # ENV CONFIG
-TYPESENSE_API_KEY = os.getenv("TYPESENSE_API_KEY", "xyz")
-TYPESENSE_HOST = os.getenv("TYPESENSE_HOST", "localhost")
-TYPESENSE_PORT = int(os.getenv("TYPESENSE_PORT", "8108"))
-TYPESENSE_PROTOCOL = os.getenv("TYPESENSE_PROTOCOL", "http")
+TYPESENSE_API_KEY = os.getenv("TYPESENSE_API_KEY")
+TYPESENSE_HOST = os.getenv("TYPESENSE_HOST")
+TYPESENSE_PORT = int(os.getenv("TYPESENSE_PORT"))
+TYPESENSE_PROTOCOL = os.getenv("TYPESENSE_PROTOCOL")
 
 NOMIC_API_KEY = os.getenv("NOMIC_API_KEY")
 NOMIC_URL = "https://api-atlas.nomic.ai/v1/embedding/text"
@@ -38,11 +38,19 @@ app.add_middleware(
 )
 
 # TYPESENSE INIT
-client = typesense.Client({
-    "nodes": [{"host": TYPESENSE_HOST, "port": TYPESENSE_PORT, "protocol": TYPESENSE_PROTOCOL}],
-    "api_key": TYPESENSE_API_KEY,
-    "connection_timeout_seconds": 3,
+import os
+import typesense
+
+typesense_client = typesense.Client({
+    "nodes": [{
+        "host": os.getenv("TYPESENSE_HOST"),      # your-instance.a1.typesense.net
+        "port": int(os.getenv("TYPESENSE_PORT")), # usually 443
+        "protocol": os.getenv("TYPESENSE_PROTOCOL")  # "https"
+    }],
+    "api_key": os.getenv("TYPESENSE_API_KEY"),
+    "connection_timeout_seconds": 10
 })
+
 
 
 AIPIPE_TOKEN = os.getenv("AIPIPE_TOKEN")
