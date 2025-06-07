@@ -6,7 +6,7 @@ prompts:
 providers:
   - id: https
     config:
-      url: https://788d-2406-7400-94-f1df-8530-4340-e1d9-3730.ngrok-free.app/api/
+      url: https://project1-tds-virtual-ta.onrender.com/api/
       method: POST
       headers:
         Content-Type: application/json
@@ -15,8 +15,7 @@ providers:
           "question": "{{ question }}"
         }
       transformResponse: json
-
-
+      outputKey: ""
 
 defaultTest:
   options:
@@ -66,6 +65,7 @@ tests:
       - type: contains
         transform: JSON.stringify(output.links)
         value: https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939
+
   - vars:
       question: If a student scores 10/10 on GA4 as well as a bonus, how would it appear on the dashboard?
       link: https://discourse.onlinedegree.iitm.ac.in/t/ga4-data-sourcing-discussion-thread-tds-jan-2025/165959/388
@@ -77,8 +77,8 @@ tests:
         transform: JSON.stringify(output.links)
         value: https://discourse.onlinedegree.iitm.ac.in/t/ga4-data-sourcing-discussion-thread-tds-jan-2025/165959
   - vars:
-      question: I know Docker but have not used Podman before. Should I use Docker for this course? 
-      assert:
+      question: I know Docker but have not used Podman before. Should I use Docker for this course?
+    assert:
       - type: llm-rubric
         transform: output.answer
         value: Recommends Podman for the course
@@ -94,3 +94,7 @@ tests:
       - type: llm-rubric
         transform: output.answer
         value: Says it doesn't know (since this information is not available yet)
+writeLatestResults: true
+
+commandLineOptions:
+  cache: true
