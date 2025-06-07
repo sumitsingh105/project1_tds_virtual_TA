@@ -91,33 +91,24 @@ def search_typesense_vector(query_vector, top_k=TOP_K):
     return response["results"][0]["hits"]
 
 # --- PROMPT BUILDER ---
+import json
+from typing import List
+
 def build_prompt(user_q: str, chunks: List[dict]) -> str:
     context_texts = []
     for chunk in chunks:
-        doc = chunk["document"]
+        doc = chunk.get("document", {})
         url = doc.get("url", "unknown")
         text = doc.get("text", "")[:160].replace("\n", " ").strip()
         context_texts.append(f"URL: {url}\nText: {text}")
     context = "\n\n---\n\n".join(context_texts)
 
-    sample_response = {
-        "answer": "You must use `gpt-3.5-turbo-0125`, even if the AI Proxy only supports `gpt-4o-mini`. Use the OpenAI API directly for this question.",
-        "links": [
-            {
-                "url": "https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939/4",
-                "text": "Use the model that’s mentioned in the question."
-            },
-            {
-                "url": "https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939/3",
-                "text": "My understanding is that you just have to use a tokenizer, similar to what Prof. Anand used, to get the number of tokens and multiply that by the given rate."
-            }
-        ]
-    }
-
+    # The prompt tells the model the exact JSON structure expected,
+    # but does NOT give a fixed example with actual content.
     return f"""
 You are a helpful educational assistant for data-science learners.
 
-Use ONLY the context below to answer the question. Provide a JSON response with an "answer" field and a "links" array containing exactly 2 helpful references (url + short summary).
+Use ONLY the context below to answer the question. Provide a JSON response with an "answer" field and a "links" array containing exactly 2 helpful references (each with "url" and "text").
 
 Context:
 {context}
@@ -126,7 +117,20 @@ Question:
 {user_q}
 
 Respond ONLY with a JSON object EXACTLY in this format:
-{json.dumps(sample_response, indent=2)}
+
+{{
+  "answer": "<your answer here>",
+  "links": [
+    {{
+      "url": "<url1>",
+      "text": "<short summary 1>"
+    }},
+    {{
+      "url": "<url2>",
+      "text": "<short summary 2>"
+    }}
+  ]
+}}
 
 Do NOT add markdown, explanations, or extra formatting. Output only the JSON object.
 """.strip()
