@@ -1,0 +1,382 @@
+<html lang="en" class="themeable"><head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Tools in Data Science</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/gramener/assets/main/straive-favicon.svg">
+  <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css">
+  <link rel="stylesheet" media="(prefers-color-scheme: light)" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
+  <style>
+    /* Add a YouTube icon on top of all YouTube links with images */
+    a[href*="youtu"]:has(img[src*="ytimg"]) {
+      position: relative;
+      display: inline-block;
+    }
+
+    a[href*="youtu"]:has(img[src*="ytimg"])::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100px;
+      height: 100px;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-youtube" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2z"/><path d="M6.4 5.209v4.818l4.157-2.408z" fill="white"/></svg>') no-repeat center center;
+      background-size: contain;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+  </style>
+<style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style><style type="text/css">.docsify-pagination-container{display:flex;flex-wrap:wrap;justify-content:space-between;overflow:hidden;margin:5em 0 1em;border-top:1px solid rgba(0,0,0,.07)}.pagination-item{margin-top:2.5em}.pagination-item a,.pagination-item a:hover{text-decoration:none}.pagination-item a{color:currentColor}.pagination-item a:hover .pagination-item-title{text-decoration:underline}.pagination-item:not(:last-child) a .pagination-item-label,.pagination-item:not(:last-child) a .pagination-item-subtitle,.pagination-item:not(:last-child) a .pagination-item-title{opacity:.3;transition:all .2s}.pagination-item:last-child .pagination-item-label,.pagination-item:not(:last-child) a:hover .pagination-item-label{opacity:.6}.pagination-item:not(:last-child) a:hover .pagination-item-title{opacity:1}.pagination-item-label{font-size:.8em}.pagination-item-label>*{line-height:1;vertical-align:middle}.pagination-item-label svg{height:.8em;width:auto;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1px}.pagination-item--next{margin-left:auto;text-align:right}.pagination-item--next svg{margin-left:.5em}.pagination-item--previous svg{margin-right:.5em}.pagination-item-title{font-size:1.6em}.pagination-item-subtitle{text-transform:uppercase;opacity:.3}</style><style type="text/css">.docsify-copy-code-button,.docsify-copy-code-button>span{cursor:pointer;transition:all .25s ease}.docsify-copy-code-button{background:grey;background:var(--theme-color,grey);border:0;border-radius:0;color:#fff;font-size:1em;opacity:0;outline:0;overflow:visible;padding:.65em .8em;position:absolute;right:0;top:0;z-index:1}.docsify-copy-code-button>span{background:inherit;border-radius:3px;pointer-events:none}.docsify-copy-code-button>.error,.docsify-copy-code-button>.success{font-size:.825em;opacity:0;padding:.5em .65em;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:-100}.docsify-copy-code-button.error>.error,.docsify-copy-code-button.success>.success{opacity:1;right:100%;transform:translate(-25%,-50%)}.docsify-copy-code-button:focus,pre:hover .docsify-copy-code-button{opacity:1}.docsify-copy-code-button>[aria-live]{height:1px;left:-10000px;overflow:hidden;position:absolute;top:auto;width:1px}</style><style type="text/css">.sidebar-nav > ul > li ul {
+  display: none;
+}
+
+.app-sub-sidebar {
+  display: none;
+}
+
+.app-sub-sidebar.open {
+  display: block;
+}
+
+.sidebar-nav .open > ul:not(.app-sub-sidebar),
+.sidebar-nav .active:not(.collapse) > ul {
+  display: block;
+}
+
+/* 抖动 */
+.sidebar-nav li.open:not(.collapse) > ul {
+  display: block;
+}
+
+.active + ul.app-sub-sidebar {
+  display: block;
+}
+</style><style type="text/css">@media screen and (max-width: 768px) {
+  /* 移动端适配 */
+  .markdown-section {
+    max-width: none;
+    padding: 16px;
+  }
+  /* 改变原来按钮热区大小 */
+  .sidebar-toggle {
+    padding: 0 0 10px 10px;
+  }
+  /* my pin */
+  .sidebar-pin {
+    appearance: none;
+    outline: none;
+    position: fixed;
+    bottom: 0;
+    border: none;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+  }
+}
+</style><style>:root{--theme-color: #dc3545;}</style><style>
+.sidebar {
+  padding-top: 0;
+}
+
+.search {
+  margin-bottom: 20px;
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+}
+
+.search .input-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.search .results-panel {
+  display: none;
+}
+
+.search .results-panel.show {
+  display: block;
+}
+
+.search input {
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 0.6em 7px;
+  font-size: inherit;
+  border: 1px solid transparent;
+}
+
+.search input:focus {
+  box-shadow: 0 0 5px var(--theme-color, #42b983);
+  border: 1px solid var(--theme-color, #42b983);
+}
+
+.search input::-webkit-search-decoration,
+.search input::-webkit-search-cancel-button,
+.search input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.search input::-ms-clear {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+.search .clear-button {
+  cursor: pointer;
+  width: 36px;
+  text-align: right;
+  display: none;
+}
+
+.search .clear-button.show {
+  display: block;
+}
+
+.search .clear-button svg {
+  transform: scale(.5);
+}
+
+.search h2 {
+  font-size: 17px;
+  margin: 10px 0;
+}
+
+.search a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.search .matching-post {
+  border-bottom: 1px solid #eee;
+}
+
+.search .matching-post:last-child {
+  border-bottom: 0;
+}
+
+.search p {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.search p.empty {
+  text-align: center;
+}
+
+.app-name.hide, .sidebar-nav.hide {
+  display: none;
+}</style><style></style></head>
+
+<body data-platform="MacIntel" class="ready sticky ready-fix" data-page="2025-01/README.md">
+  <main><button class="sidebar-toggle" aria-label="Menu"><div class="sidebar-toggle-button"><span></span><span></span><span></span></div></button><aside class="sidebar"><div class="search"><div class="input-wrap">
+      <input type="search" value="" aria-label="Search text" placeholder="Type to search">
+      <button class="clear-button" aria-label="Clear search">
+                <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8" r="8" fill="black"></circle>
+                    <path stroke="white" stroke-width="1.5" d="M4.5,4.5,11.5,11.5" vector-effect="non-scaling-stroke"></path>
+                    <path stroke="white" stroke-width="1.5" d="M4.5,11.5,11.5,4.5" vector-effect="non-scaling-stroke"></path>
+                </svg>
+            </button>
+    </div>
+    <div class="results-panel"></div>
+    </div><h1 class="app-name"><a class="app-name-link" data-nosearch="" href="/">Tools in Data Science</a></h1><div class="sidebar-nav"><style>.sidebar { background:#300 }</style>
+
+<ul><li class="file"><a href="#/README" title="Jan 2025: Tools in Data Science">Jan 2025: Tools in Data Science</a></li><li class="folder level-1"><a href="#/../development-tools" title="Development Tools">Development Tools</a><ul><li class="file"><a href="#/../vscode" title="Editor: VS Code">Editor: VS Code</a></li><li class="file"><a href="#/../uv" title="Python tools: uv">Python tools: uv</a></li><li class="file"><a href="#/../npx" title="JavaScript tools: npx">JavaScript tools: npx</a></li><li class="file"><a href="#/../unicode" title="Unicode">Unicode</a></li><li class="file"><a href="#/../devtools" title="Browser: DevTools">Browser: DevTools</a></li><li class="file"><a href="#/../css-selectors" title="CSS Selectors">CSS Selectors</a></li><li class="file"><a href="#/../json" title="JSON">JSON</a></li><li class="file"><a href="#/../bash" title="Terminal: Bash">Terminal: Bash</a></li><li class="file"><a href="#/../spreadsheets" title="Spreadsheet: Excel, Google Sheets">Spreadsheet: Excel, Google Sheets</a></li><li class="file"><a href="#/../sqlite" title="Database: SQLite">Database: SQLite</a></li><li class="file"><a href="#/../git" title="Version Control: Git, GitHub">Version Control: Git, GitHub</a></li></ul></li><li class="folder level-1"><a href="#/../deployment-tools" title="Deployment Tools">Deployment Tools</a><ul><li class="file"><a href="#/../markdown" title="Markdown">Markdown</a></li><li class="file"><a href="#/../image-compression" title="Images: Compression">Images: Compression</a></li><li class="file"><a href="#/../github-pages" title="Static hosting: GitHub Pages">Static hosting: GitHub Pages</a></li><li class="file"><a href="#/../colab" title="Notebooks: Google Colab">Notebooks: Google Colab</a></li><li class="file"><a href="#/../vercel" title="Serverless hosting: Vercel">Serverless hosting: Vercel</a></li><li class="file"><a href="#/../github-actions" title="CI/CD: GitHub Actions">CI/CD: GitHub Actions</a></li><li class="file"><a href="#/../docker" title="Containers: Docker, Podman">Containers: Docker, Podman</a></li><li class="file"><a href="#/../ngrok" title="Tunneling: ngrok">Tunneling: ngrok</a></li><li class="file"><a href="#/../cors" title="CORS">CORS</a></li><li class="file"><a href="#/../rest-apis" title="REST APIs">REST APIs</a></li><li class="file"><a href="#/../fastapi" title="Web Framework: FastAPI">Web Framework: FastAPI</a></li><li class="file"><a href="#/../llamafile" title="Local LLMs: Llamafile">Local LLMs: Llamafile</a></li></ul></li><li class="folder level-1"><a href="#/../large-language-models" title="Large Language Models">Large Language Models</a><ul><li class="file"><a href="#/../prompt-engineering" title="Prompt engineering">Prompt engineering</a></li><li class="file"><a href="#/../tds-ta-instructions" title="TDS TA Instructions">TDS TA Instructions</a></li><li class="file"><a href="#/../tds-gpt-reviewer" title="TDS GPT Reviewer">TDS GPT Reviewer</a></li><li class="file"><a href="#/../llm-sentiment-analysis" title="LLM Sentiment Analysis">LLM Sentiment Analysis</a></li><li class="file"><a href="#/../llm-text-extraction" title="LLM Text Extraction">LLM Text Extraction</a></li><li class="file"><a href="#/../base64-encoding" title="Base 64 Encoding">Base 64 Encoding</a></li><li class="file"><a href="#/../vision-models" title="Vision Models">Vision Models</a></li><li class="file"><a href="#/../embeddings" title="Embeddings">Embeddings</a></li><li class="file"><a href="#/../topic-modeling" title="Topic modeling">Topic modeling</a></li><li class="file"><a href="#/../vector-databases" title="Vector databases">Vector databases</a></li><li class="file"><a href="#/../retrieval-augmented-generation" title="Retrieval Augmented Generation">Retrieval Augmented Generation</a></li><li class="file"><a href="#/../function-calling" title="Function Calling">Function Calling</a></li></ul></li><li class="file"><a href="#/../project-1" title="Project 1">Project 1</a></li><li class="folder level-1"><a href="#/../data-sourcing" title="Data Sourcing">Data Sourcing</a><ul><li class="file"><a href="#/../scraping-with-excel" title="Scraping with Excel">Scraping with Excel</a></li><li class="file"><a href="#/../scraping-with-google-sheets" title="Scraping with Google Sheets">Scraping with Google Sheets</a></li><li class="file"><a href="#/../bbc-weather-api-with-python" title="BBC Weather API with Python">BBC Weather API with Python</a></li><li class="file"><a href="#/../scraping-imdb-with-javascript" title="Scraping IMDb with JavaScript">Scraping IMDb with JavaScript</a></li><li class="file"><a href="#/../nominatim-api-with-python" title="Nominatim API with Python">Nominatim API with Python</a></li><li class="file"><a href="#/../wikipedia-data-with-python" title="Wikipedia Data with Python">Wikipedia Data with Python</a></li><li class="file"><a href="#/../scraping-pdfs-with-tabula" title="Scraping PDFs with Tabula">Scraping PDFs with Tabula</a></li><li class="file"><a href="#/../convert-pdfs-to-markdown" title="Convert PDFs to Markdown">Convert PDFs to Markdown</a></li><li class="file"><a href="#/../llm-website-scraping" title="LLM Website Scraping">LLM Website Scraping</a></li><li class="file"><a href="#/../llm-video-screen-scraping" title="LLM Video Screen-Scraping">LLM Video Screen-Scraping</a></li><li class="file"><a href="#/../scheduled-scraping-with-github-actions" title="Scheduled Scraping with GitHub Actions">Scheduled Scraping with GitHub Actions</a></li><li class="file"><a href="#/../scraping-emarketer" title="Scraping emarketer.com">Scraping emarketer.com</a></li><li class="file"><a href="#/../scraping-live-sessions" title="Scraping: Live Sessions">Scraping: Live Sessions</a></li></ul></li><li class="folder level-1"><a href="#/../data-preparation" title="Data Preparation">Data Preparation</a><ul><li class="file"><a href="#/../data-cleansing-in-excel" title="Data Cleansing in Excel">Data Cleansing in Excel</a></li><li class="file"><a href="#/../data-transformation-in-excel" title="Data Transformation in Excel">Data Transformation in Excel</a></li><li class="file"><a href="#/../splitting-text-in-excel" title="Splitting Text in Excel">Splitting Text in Excel</a></li><li class="file"><a href="#/../data-aggregation-in-excel" title="Data Aggregation in Excel">Data Aggregation in Excel</a></li><li class="file"><a href="#/../data-preparation-in-the-shell" title="Data Preparation in the Shell">Data Preparation in the Shell</a></li><li class="file"><a href="#/../data-preparation-in-the-editor" title="Data Preparation in the Editor">Data Preparation in the Editor</a></li><li class="file"><a href="#/../cleaning-data-with-openrefine" title="Cleaning Data with OpenRefine">Cleaning Data with OpenRefine</a><!-- #TODO Data Preparation in DuckDB --></li><li class="file"><a href="#/../profiling-data-with-python" title="Profiling Data with Python">Profiling Data with Python</a></li><li class="file"><a href="#/../parsing-json" title="Parsing JSON">Parsing JSON</a></li><li class="file"><a href="#/../transforming-images" title="Transforming Images">Transforming Images</a></li><li class="file"><a href="#/../extracting-audio-and-transcripts" title="Extracting Audio and Transcripts">Extracting Audio and Transcripts</a></li></ul></li><li class="folder level-1"><a href="#/../data-analysis" title="Data Analysis">Data Analysis</a><ul><li class="file"><a href="#/../correlation-with-excel" title="Correlation with Excel">Correlation with Excel</a></li><li class="file"><a href="#/../regression-with-excel" title="Regression with Excel">Regression with Excel</a></li><li class="file"><a href="#/../forecasting-with-excel" title="Forecasting with Excel">Forecasting with Excel</a></li><li class="file"><a href="#/../outlier-detection-with-excel" title="Outlier Detection with Excel">Outlier Detection with Excel</a></li><li class="file"><a href="#/../data-analysis-with-python" title="Data Analysis with Python">Data Analysis with Python</a></li><li class="file"><a href="#/../data-analysis-with-sql" title="Data Analysis with SQL">Data Analysis with SQL</a></li><li class="file"><a href="#/../data-analysis-with-duckdb" title="Data Analysis with DuckDB">Data Analysis with DuckDB</a></li><li class="file"><a href="#/../geospatial-analysis-with-excel" title="Geospatial Analysis with Excel">Geospatial Analysis with Excel</a></li><li class="file"><a href="#/../geospatial-analysis-with-python" title="Geospatial Analysis with Python">Geospatial Analysis with Python</a></li><li class="file"><a href="#/../geospatial-analysis-with-qgis" title="Geospatial Analysis with QGIS">Geospatial Analysis with QGIS</a></li><li class="file"><a href="#/../network-analysis-in-python" title="Network Analysis in Python">Network Analysis in Python</a></li><li class="file"><a href="#/../visualizing-machine-learning" title="Visualizing Machine Learning">Visualizing Machine Learning</a></li></ul></li><li class="file"><a href="#/../project-2" title="Project 2">Project 2</a></li><li class="folder level-1"><a href="#/../data-visualization" title="Data Visualization">Data Visualization</a><ul><li class="file"><a href="#/../visualizing-forecasts-with-excel" title="Visualizing Forecasts with Excel">Visualizing Forecasts with Excel</a></li><li class="file"><a href="#/../visualizing-animated-data-with-powerpoint" title="Visualizing Animated Data with PowerPoint">Visualizing Animated Data with PowerPoint</a></li><li class="file"><a href="#/../visualizing-animated-data-with-flourish" title="Visualizing Animated Data with Flourish">Visualizing Animated Data with Flourish</a></li><li class="file"><a href="#/../visualizing-network-data-with-kumu" title="Visualizing Network Data with Kumu">Visualizing Network Data with Kumu</a></li><li class="file"><a href="#/../visualizing-charts-with-excel" title="Visualizing Charts with Excel">Visualizing Charts with Excel</a></li><li class="file"><a href="#/../data-visualization-with-seaborn" title="Data Visualization with Seaborn">Data Visualization with Seaborn</a></li><li class="file"><a href="#/../google-charts" title="Google Charts">Google Charts</a></li><li class="file"><a href="#/../google-data-studio" title="Google Data Studio">Google Data Studio</a></li><li class="file"><a href="#/../actor-network-visualization" title="Actor Network Visualization">Actor Network Visualization</a></li><li class="file"><a href="#/../rawgraphs" title="RAWgraphs">RAWgraphs</a></li><li class="file"><a href="#/../data-storytelling" title="Data Storytelling">Data Storytelling</a></li><li class="file"><a href="#/../marimo" title="Interactive Notebooks: Marimo">Interactive Notebooks: Marimo</a></li><li class="file"><a href="#/../narratives-with-excel" title="Narratives with Excel">Narratives with Excel</a></li><li class="file"><a href="#/../narratives-with-comics" title="Narratives with Comics">Narratives with Comics</a></li></ul></li><li class="folder level-1"><a href="#/../live-sessions" title="Live Sessions">Live Sessions</a><ul><li class="file"><a href="#/../live-session-2025-01-15" title="15 Jan 2025">15 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-16" title="16 Jan 2025">16 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-17" title="17 Jan 2025">17 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-20" title="20 Jan 2025">20 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-21" title="21 Jan 2025">21 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-22" title="22 Jan 2025">22 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-23" title="23 Jan 2025">23 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-28" title="28 Jan 2025">28 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-29" title="29 Jan 2025">29 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-30" title="30 Jan 2025">30 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-01-31" title="31 Jan 2025">31 Jan 2025</a></li><li class="file"><a href="#/../live-session-2025-02-01" title="01 Feb 2025">01 Feb 2025</a></li><li class="file"><a href="#/../live-session-2025-02-04" title="04 Feb 2025">04 Feb 2025</a></li><li class="file"><a href="#/../live-session-2025-02-06" title="06 Feb 2025">06 Feb 2025</a></li><li class="file"><a href="#/../live-session-2025-02-07" title="07 Feb 2025">07 Feb 2025</a></li></ul></li></ul></div></aside><section class="content"><article class="markdown-section" id="main"><h1 id="tools-in-data-science-jan-2025"><a href="#/2025-01/?id=tools-in-data-science-jan-2025" data-id="tools-in-data-science-jan-2025" class="anchor"><span>Tools in Data Science - Jan 2025</span></a></h1><p><a href="https://study.iitm.ac.in/ds/course_pages/BSSE2002.html" target="_blank" rel="noopener">Tools in Data Science</a> is a practical diploma level data science course at IIT Madras that teaches
+popular tools for sourcing data, transforming it, analyzing it, communicating these as visual stories, and deploying them in production.</p><details>
+<summary><strong>This course exposes you to real-life tools</strong></summary>
+
+<p>Courses teach you programming and data science. From statistics to algorithms to writing Python code to building models.</p><p>But one critical subject that’s rarely covered is: what tools should I pick and how do I become proficient in them?</p><p>These tools might not help your CV much. But they will make things easier in real life. For example, at school:</p><ul><li>You learn from pristine datasets. But in the industry, you’ll have to scrape them yourself.</li><li>You learn how to train models. But soon, you’ll just pick something from HuggingFace.</li><li>You learn to write a log parser over weeks. Instead, your boss writes a <code>sed</code> + <code>grep</code> script in minutes.</li></ul><p><a href="https://explainxkcd.com/224/" target="_blank" rel="noopener"><img src="https://imgs.xkcd.com/comics/lisp.jpg" data-origin="https://imgs.xkcd.com/comics/lisp.jpg" alt=""> “We lost the documentation on quantum mechanics. You’ll have to decode the regexes yourself.”</a></p><p>In this course, we’ve curated the most important tools people use in data science.</p><p>Learn them well. You’ll be a <strong><em>lot</em> more productive</strong> than your peers.</p></details>
+
+<details>
+<summary><strong>This course is quite hard</strong></summary>
+
+<p>Here’s students’ feedback:</p><ul><li>It <em>used</em> to be an easy course until 2024.
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/difficulty-rating-for-diploma-subjects-based-on-students-opinion/61194" target="_blank" rel="noopener">#</a>
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/difficulty-rating-for-diploma-subjects-2-0-based-on-student-ratings-and-my-experience/85681" target="_blank" rel="noopener">#</a>
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/what-should-i-take-next/44291/6" target="_blank" rel="noopener">#</a></li><li>Now it’s hard and covers more. Take it in your last semester if possible.
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/diploma-course-feedback-t32024-and-course-selection-t12025-thread/160032/45" target="_blank" rel="noopener">#</a>
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/2024-t1-diploma-level-feedback-and-course-selection-for-may-2024-term/127856/60" target="_blank" rel="noopener">#</a>
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/2024-t2-diploma-level-feedback-and-course-selection-for-september-2024-term/144976/62?u=s.anand" target="_blank" rel="noopener">#</a></li><li>Plan extra time. It takes more time than typical 3-credit courses.
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/concerns-regarding-unfair-grading-practices-for-tds-project-2/160611/11" target="_blank" rel="noopener">#</a>
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/diploma-level-course-combo-suggestion/158460/4" target="_blank" rel="noopener">#</a>
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/diploma-level-course-combo-suggestion/158460/7" target="_blank" rel="noopener">#</a></li><li>LLMs grade you – unpredictably.
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/concerns-regarding-unfair-grading-practices-for-tds-project-2/160611/10" target="_blank" rel="noopener">#</a>
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/wrong-marks-in-project-2/160355/9" target="_blank" rel="noopener">#</a></li><li>The ROE is hard.
+<a href="https://discourse.onlinedegree.iitm.ac.in/t/is-it-fair-to-consider-20-weightage-of-such-exam-which-is-impossible-to-solve-in-given-time-i-e-roe/141413/10" target="_blank" rel="noopener">#</a></li></ul><p><strong><a href="https://exam.sanand.workers.dev/tds-2025-01-ga1" target="_blank" rel="noopener">Take Graded assignment 1</a> to check if you’re ready for this course.</strong> Please drop this course (do it in a later term) if you score low. It’ll be too tough for you now.</p></details>
+
+<details>
+<summary><strong>Programming skills are a pre-requisite</strong></summary>
+
+<p>You need a <em>good</em> understanding of Python, JavaScript, HTML, HTTP, Excel, and data science concepts.</p><p><strong>But isn’t this a data science course?</strong> Yes. Good data scientists are good programmers. Data scientists don’t just analyze data or train models. They source data, clean it, transform it, visualize it, deploy it, and automate the whole process.</p><p>In some organizations, some of this work is done by others (e.g. data engineers, IT teams, etc.). But wherever you are, <em>some</em> of the time, you need to write code for all of this yourself.</p><p>This course teaches you tools that will make you more productive. But you <em>do</em> need programming to learn many of them.</p></details>
+
+<details>
+<summary><strong>We encourage learning by sharing</strong></summary>
+
+<p>You <em>CAN</em> copy from friends. You can work in groups. You can share code. Even in projects, assignments, and exams (except the final end-term exam).</p><p><strong>Why should you copy?</strong> Because in real life, there’s no time to re-invent the wheel. You’ll be working in teams on the shoulders of giants. It’s important to learn how to do that well.</p><p><strong>To learn well, understand</strong> what you’re copying. If you’re short of time, prioritize.</p><p><strong>To learn better, teach</strong> what you’ve learnt.</p></details>
+
+<h2 id="we-cover-7-modules-in-12-weeks"><a href="#/2025-01/?id=we-cover-7-modules-in-12-weeks" data-id="we-cover-7-modules-in-12-weeks" class="anchor"><span>We cover 7 modules in 12 weeks</span></a></h2><p>The content evolves with technology and feedback.
+Track the <a href="https://github.com/sanand0/tools-in-data-science-public/commits/tds-2025-01/" target="_blank" rel="noopener">commit history</a> for changes.</p><p>Released content:</p><ol><li><strong><a href="#/../development-tools">Development Tools</a></strong> and concepts to <strong>build</strong> models and apps. <a href="https://discourse.onlinedegree.iitm.ac.in/t/ga1-development-tools-discussion-thread-tds-jan-2025/161083" target="_blank" rel="noopener">Discussion Thread</a></li><li><strong><a href="#/../deployment-tools">Deployment Tools</a></strong> and concepts to <strong>publish</strong> what you built. <a href="https://discourse.onlinedegree.iitm.ac.in/t/ga1-development-tools-discussion-thread-tds-jan-2025/161083" target="_blank" rel="noopener">Discussion Thread</a></li><li><strong><a href="#/../large-language-models">Large Language Models</a></strong> that make your work easier and your apps smarter. <a href="https://discourse.onlinedegree.iitm.ac.in/t/ga3-large-language-models-discussion-thread-tds-jan-2025/163247" target="_blank" rel="noopener">Discussion Thread</a></li><li><strong><a href="#/../data-sourcing">Data Sourcing</a></strong> to get data from the web, files, and databases. <a href="https://discourse.onlinedegree.iitm.ac.in/t/ga4-data-sourcing-discussion-thread-tds-jan-2025/165959" target="_blank" rel="noopener">Discussion Thread</a></li><li><strong><a href="#/../data-preparation">Data Preparation</a></strong> to clean up and convert the inputs to the right format. <a href="https://discourse.onlinedegree.iitm.ac.in/t/ga5-data-preparation-discussion-thread-tds-jan-2025/166576" target="_blank" rel="noopener">Discussion Thread</a></li></ol><p><strong><a href="#/../project-1">Project 1</a></strong> to build an LLM-based automation agent. <a href="https://discourse.onlinedegree.iitm.ac.in/t/project-1-llm-based-automation-agent-discussion-thread-tds-jan-2025/164277" target="_blank" rel="noopener">Discussion Thread</a></p><p>Work in progress:</p><ol start="6"><li><strong><a href="#/../data-analysis">Data Analysis</a></strong> to find surprising insights in the data.</li><li><strong><a href="#/../data-visualization">Data Visualization</a></strong> to communicate those insights as visual stories.</li></ol><h2 id="evaluations-are-mostly-open-internet"><a href="#/2025-01/?id=evaluations-are-mostly-open-internet" data-id="evaluations-are-mostly-open-internet" class="anchor"><span>Evaluations are mostly open Internet</span></a></h2>
+                    <div class="table-wrapper">
+                        <table id="_on9qrgp32">
+                            <thead><tr>
+<th>Exam</th>
+<th>Type</th>
+<th align="right">Weight</th>
+<th align="right">Release Date</th>
+<th align="right">Submission Date</th>
+</tr>
+</thead>
+                            <tbody><tr>
+<td>GA: Graded assignments</td>
+<td>Best 4 out of 7 ‡</td>
+<td align="right">15%</td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+<tr>
+<td><a href="https://exam.sanand.workers.dev/tds-2025-01-ga1" target="_blank" rel="noopener">Graded Assignment 1</a></td>
+<td>Online open MCQ</td>
+<td align="right"></td>
+<td align="right">30 Dec 2024</td>
+<td align="right">26 Jan 2025</td>
+</tr>
+<tr>
+<td><a href="https://exam.sanand.workers.dev/tds-2025-01-ga2" target="_blank" rel="noopener">Graded Assignment 2</a></td>
+<td>Online open MCQ</td>
+<td align="right"></td>
+<td align="right">3 Jan 2025</td>
+<td align="right">2 Feb 2025</td>
+</tr>
+<tr>
+<td><a href="https://exam.sanand.workers.dev/tds-2025-01-ga3" target="_blank" rel="noopener">Graded Assignment 3</a></td>
+<td>Online open MCQ</td>
+<td align="right"></td>
+<td align="right">15 Jan 2025</td>
+<td align="right">5 Feb 2025</td>
+</tr>
+<tr>
+<td><a href="https://exam.sanand.workers.dev/tds-2025-01-ga4" target="_blank" rel="noopener">Graded Assignment 4</a></td>
+<td>Online open MCQ</td>
+<td align="right"></td>
+<td align="right">31 Jan 2025</td>
+<td align="right">9 Feb 2025</td>
+</tr>
+<tr>
+<td><a href="#/../project-1">P1: Project 1</a></td>
+<td>Take-home open-Internet</td>
+<td align="right">20%</td>
+<td align="right">19 Jan 2025</td>
+<td align="right">16 Feb 2025</td>
+</tr>
+<tr>
+<td><a href="https://exam.sanand.workers.dev/tds-2025-01-ga5" target="_blank" rel="noopener">Graded Assignment 5</a></td>
+<td>Online open MCQ</td>
+<td align="right"></td>
+<td align="right">7 Feb 2025</td>
+<td align="right">21 Feb 2025</td>
+</tr>
+<tr>
+<td><a href="https://seek.onlinedegree.iitm.ac.in/courses/ns_25t1_se2002?id=25&amp;type=assignment&amp;tab=courses&amp;unitId=23" target="_blank" rel="noopener">Graded Assignment 6</a></td>
+<td>Online open MCQ</td>
+<td align="right"></td>
+<td align="right">28 Feb 2025</td>
+<td align="right">16 Mar 2025</td>
+</tr>
+<tr>
+<td><a href="#/../project-2">P2: Project 2</a></td>
+<td>Take-home open-Internet</td>
+<td align="right">20%</td>
+<td align="right">3 Mar 2025</td>
+<td align="right">31 Mar 2025</td>
+</tr>
+<tr>
+<td><a href="https://seek.onlinedegree.iitm.ac.in/courses/ns_25t1_se2002?id=15&amp;type=assignment&amp;tab=courses&amp;unitId=26" target="_blank" rel="noopener">Graded Assignment 7</a></td>
+<td>Online open MCQ</td>
+<td align="right"></td>
+<td align="right">14 Mar 2025</td>
+<td align="right">26 Mar 2025</td>
+</tr>
+<tr>
+<td><a href="https://exam.sanand.workers.dev/tds-2025-01-roe" target="_blank" rel="noopener">ROE: Remote Online Exam</a></td>
+<td>Online open-Internet MCQ</td>
+<td align="right">20%</td>
+<td align="right">02 Mar 2025 13:00</td>
+<td align="right">02 Mar 2025 13:45</td>
+</tr>
+<tr>
+<td>F: Final end-term</td>
+<td>In-person, no internet, mandatory</td>
+<td align="right">25%</td>
+<td align="right">13 Apr 2025</td>
+<td align="right"></td>
+</tr>
+</tbody>
+                        </table>
+                    </div><h3 id="updates"><a href="#/2025-01/?id=updates" data-id="updates" class="anchor"><span>Updates</span></a></h3><ul><li>13 Jan 2025: GA3 release date moved from 10 Jan 2025 to 15 Jan 2025 due to faculty delay. Students have till 2 Feb 2025 - more than the 10 days expected for a GA.</li><li>22 Jan 2025: GA2 submission date moved from 26 Jan 2025 to 2 Feb 2025. GA4 release date is moved from 24 Jan 2025 to 31 Jan 2025. This is to reduce the amount students have to learn in a short period.</li><li>29 Jan 2025: GA3 submission date moved from 2 Feb 2025 to 5 Feb 2025.</li><li>13 Feb 2025: GA5 submission date moved from 16 Feb 2025 to 21 Feb 2025.</li><li>15 Feb 2025: Project 1 deadline moved from 15 Jan 2025 to 16 Feb 2025.</li><li>26 Feb 2025:<ul><li>Project 1 results will be released by 16 Mar 2025.</li><li>Graded Assignment 6 moved from 14 Feb to 28 Feb 2025. Submission date moved from 9 Mar to 16 Mar 2025.</li><li>Project 2 moved from 21 Feb to 3 Mar 2025. Submission date moved from 17 Mar to 31 Mar 2025.</li><li>Graded Assignment 7 moved from 28 Feb to 7 Mar 2025. Submission date moved from 16 Mar to 26 Mar 2025.</li></ul></li><li>7 Mar 2025: GA7 release date moved from 7 Mar to 14 Mar 2025.</li></ul><h3 id="notes"><a href="#/2025-01/?id=notes" data-id="notes" class="anchor"><span>Notes</span></a></h3><ul><li><strong><a href="https://exam.sanand.workers.dev/tds-2025-01-ga1" target="_blank" rel="noopener">Graded Assignment 1</a> checks course pre-requisites</strong>. Please drop this course (do it in a later term) if you score low. It’ll be too tough for you now.</li><li>‡ <strong>Graded Assignments: Best 4 out 7</strong>. We’ll take the best 4 out of your graded assignments submissions. These, combined, will have a 15% weightage.</li><li><strong>Remote exams are open and hard</strong><ul><li>You can use the Internet, WhatsApp, ChatGPT, your notes, your friends, your pets…</li><li>The RoE is especially hard. Read: <a href="https://discourse.onlinedegree.iitm.ac.in/t/whats-the-actual-purpose-of-impossible-roe-exam/99838/2" target="_blank" rel="noopener">What is the purpose of an impossible RoE exam?</a></li></ul></li><li><strong>Final exam is in-person and closed book</strong>. It tests your memory. It’s easy.</li><li><strong>Projects test application</strong>. The projects test how well you apply what you learnt in a real-world context.</li><li><strong>Bonus activities may be posted on Discourse</strong>. See <a href="https://discourse.onlinedegree.iitm.ac.in/tags/c/courses/tds-kb/34/bonus-marks" target="_blank" rel="noopener">previous bonus activities</a></li><li><strong>Evaluations are mostly automated</strong>. This course uses pre-computed (for objective) or LLMs (for subjective) evaluations.<ul><li>LLMs will evaluate you differently each time. Learn to prompt them <em>robustly</em> to get higher marks.</li></ul></li></ul><h2 id="constantly-check-communications"><a href="#/2025-01/?id=constantly-check-communications" data-id="constantly-check-communications" class="anchor"><span>Constantly check communications</span></a></h2><p>Check these three links regularly to keep up with the course.</p><ol><li><strong><a href="https://seek.onlinedegree.iitm.ac.in/" target="_blank" rel="noopener">Seek Inbox</a></strong> for Course Announcements. Log into <a href="https://seek.onlinedegree.iitm.ac.in/" target="_blank" rel="noopener">seek.onlinedegree.iitm.ac.in</a> and click on “Inbox” on the left. Check notifications daily.
+<img src="/2025-01/../images/portal-inbox.webp" data-origin="../images/portal-inbox.webp" alt="Portal Inbox" class="medium-zoom-image"></li><li><strong><a href="https://mail.google.com/" target="_blank" rel="noopener">Your email</a></strong> for Course Announcements. <a href="https:/seek.onlinedegree.iitm.ac.in/" target="_blank" rel="noopener">Seek</a> Inbox are forwarded to your email. Check daily. Check spam folders too.</li><li><strong><a href="https://discourse.onlinedegree.iitm.ac.in/c/courses/tds-kb/34" target="_blank" rel="noopener">TDS Discourse</a></strong>: Faculty, instructors, and TAs will share updates and address queries here. Email <a href="mailto:support@study.iitm.ac.in">support@study.iitm.ac.in</a> cc: <a href="mailto:discourse-staff1@study.iitm.ac.in">discourse-staff1@study.iitm.ac.in</a> if you can’t access Discourse.</li></ol><h2 id="people-who-help-you"><a href="#/2025-01/?id=people-who-help-you" data-id="people-who-help-you" class="anchor"><span>People who help you</span></a></h2><ul><li><strong>Faculty</strong> (who design the course)<ul><li><a href="https://www.linkedin.com/in/sanand0/" target="_blank" rel="noopener">Anand S</a>,
+<a href="mailto:s.anand@gramener.com">s.anand@gramener.com</a> |
+<a href="https://discourse.onlinedegree.iitm.ac.in/u/s.anand" target="_blank" rel="noopener">@s.anand</a></li></ul></li><li><strong>Instructors</strong> (who teach the course)<ul><li>Carlton D’Silva.
+<a href="mailto:22f3001919@ds.study.iitm.ac.in">22f3001919@ds.study.iitm.ac.in</a> |
+<a href="https://discourse.onlinedegree.iitm.ac.in/u/carlton" target="_blank" rel="noopener">@carlton</a></li><li><a href="https://www.linkedin.com/in/prasanna-sugumaran-ab980222/" target="_blank" rel="noopener">Prasanna S</a>,
+<a href="mailto:prasanna@study.iitm.ac.in">prasanna@study.iitm.ac.in</a> |
+<a href="https://discourse.onlinedegree.iitm.ac.in/u/iamprasna" target="_blank" rel="noopener">@iamprasna</a></li></ul></li><li><strong>Teaching assistants</strong> (who help you with your doubts)<ul><li>Jivraj Singh,
+<a href="mailto:22f3002542@ds.study.iitm.ac.in">22f3002542@ds.study.iitm.ac.in</a> |
+<a href="https://discourse.onlinedegree.iitm.ac.in/u/jivraj" target="_blank" rel="noopener">@Jivraj</a> |
+<a href="https://www.linkedin.com/in/jivraj-singh-shekhawat-92a547269/" target="_blank" rel="noopener">LinkedIn Profile</a></li><li>Saransh Saini,
+<a href="mailto:22f1001123@ds.study.iitm.ac.in">22f1001123@ds.study.iitm.ac.in</a> |
+<a href="https://discourse.onlinedegree.iitm.ac.in/u/Saransh_Saini" target="_blank" rel="noopener">@Saransh_Saini</a> |
+<a href="https://www.linkedin.com/in/saranshsaini48/" target="_blank" rel="noopener">LinkedIn Profile</a></li><li><a href="https://chatgpt.com/g/g-mZqKVxKDx-iitm-tds-teaching-assistant" target="_blank" rel="noopener">Virtual TA</a>
+(<a href="#/../tds-ta-instructions">GPT Instructions</a>)</li></ul></li></ul><!--
+- Mahesh Balan U (MS, PhD - IIT Madras)
+- Dixon Prem Daniel (PhD - IIT Madras)
+- Ravi Teja (MS - IIT Madras)
+- Sathiesh (MS - IIT Madras)
+- Rohith Srinivaas M (B.Tech, M.Tech - IIT Madras)
+
+- [Amit Kumar Gupta](https://www.linkedin.com/in/amit-gupta-321994252/) (B.Sc. Delhi University).
+  [21f1005763@ds.study.iitm.ac.in](mailto:21f1005763@ds.study.iitm.ac.in) |
+  [@Amit1](https://discourse.onlinedegree.iitm.ac.in/u/Amit1)
+
+-->
+
+<p>Their <strong>job</strong> is to help you. Trouble them for your slightest doubts!</p><h2 id="course-links"><a href="#/2025-01/?id=course-links" data-id="course-links" class="anchor"><span>Course Links</span></a></h2><ul><li><a href="https://discourse.onlinedegree.iitm.ac.in/c/courses/tds-kb/34" target="_blank" rel="noopener">TDS Discourse</a> - Ask questions, get help, and discuss with your peers.</li><li><a href="https://docs.google.com/document/u/1/d/e/2PACX-1vQB7SYIXQPJr0-WcfekVVSt488MdlkNzRUPacbRh2QgOALXcinPybopWIFlY83tdr_mH1QtrhCIsFUq/pub" target="_blank" rel="noopener">IITM BS Degree Programme - Student Handbook</a></li><li><a href="https://study.iitm.ac.in/ds/course_pages/BSSE2002.html" target="_blank" rel="noopener">Tools in Data Science Public course home page</a></li></ul><h2 id="jan-2025-links"><a href="#/2025-01/?id=jan-2025-links" data-id="jan-2025-links" class="anchor"><span>Jan 2025 Links</span></a></h2><ul><li><a href="[https://docs.google.com/document/d/1e1l9ERBGYoS2jhKZHcTP6zZUH_NLzJv99xdcyi21Z1Y/pub](https://docs.google.com/document/d/e/2PACX-1vRBH1NuM3ML6MH5wfL2xPiPsiXV0waKlUUEj6C7LrHrARNUsAEA1sT2r7IHcFKi8hvQ45gSrREnFiTT/pub" target="_blank" rel="noopener">Jan 2025 Grading Document</a>.</li><li><a href="https://seek.onlinedegree.iitm.ac.in/courses/ns_25t1_se2002" target="_blank" rel="noopener">TDS: Course page - Jan 2025</a> – for students to access course content.</li><li><a href="https://calendar.google.com/calendar/u/0/r?cid=Y19ib2Y3bnMxbDduNm84azA1dHA4YTlxNWIwZ0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">TDS: Course calendar - Jan 2025</a></li><li><a href="https://groups.google.com/a/study.iitm.ac.in/g/25t1_se2002-announce" target="_blank" rel="noopener">TDS: Announcement group - Jan 2025</a></li><li><a href="https://drive.google.com/drive/folders/1FE0YPAxcxMzZdjnp3FopuJCI3A2Vq6fC?usp=drive_link" target="_blank" rel="noopener">TDS: Course material</a> – Jupyter notebooks, datasets, etc.</li><li><a href="https://www.youtube.com/playlist?list=PL_h5u1jMeBCl1BquBhgunA4t08XAxsA-C" target="_blank" rel="noopener">TDS: TA Sessions - Jan 2025</a> – YouTube playlist</li></ul><!--
+
+- [Back-end for configuring the lessons](https://cb-prod.seek.study.iitm.ac.in/25t1_se2002/)
+
+-->
+<div class="docsify-pagination-container"></div></article></section></main>
+  <script>
+    window.$docsify = {
+      name: 'Tools in Data Science',
+      subMaxLevel: 2,
+      themeColor: '#dc3545',
+      loadSidebar: true,
+      sidebarDisplayLevel: 0,
+      pagination: { previousText: 'Previous', nextText: 'Next', crossChapter: true, crossChapterText: true },
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/zoom-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0.9/dist/js/docsify-themeable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@3/dist/docsify-copy-code.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+
+
+
+<div class="progress" style="opacity: 0; width: 0%;"></div></body></html>
