@@ -16,5 +16,5 @@ pytesseract
 rank_bm25
 numpy
 faiss-cpu
-
+python-multipart
 
