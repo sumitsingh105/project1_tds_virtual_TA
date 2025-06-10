@@ -6,7 +6,7 @@ prompts:
 providers:
   - id: https
     config:
-      url: https://788d-2406-7400-94-f1df-8530-4340-e1d9-3730.ngrok-free.app/api/
+      url: http://127.0.0.1:8000/api/
       method: POST
       headers:
         Content-Type: application/json
@@ -78,7 +78,7 @@ tests:
         value: https://discourse.onlinedegree.iitm.ac.in/t/ga4-data-sourcing-discussion-thread-tds-jan-2025/165959
   - vars:
       question: I know Docker but have not used Podman before. Should I use Docker for this course? 
-      assert:
+    assert:
       - type: llm-rubric
         transform: output.answer
         value: Recommends Podman for the course
@@ -87,7 +87,7 @@ tests:
         value: Mentions that Docker is acceptable
       - type: contains
         transform: JSON.stringify(output.links)
-        value: https://tds.s-anand.net/#/docker
+        value: https://tds.s-anand.net/#/../docker
   - vars:
       question: When is the TDS Sep 2025 end-term exam?
     assert:

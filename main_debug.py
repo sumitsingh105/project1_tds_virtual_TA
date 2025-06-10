@@ -13,6 +13,7 @@ from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import SystemMessage, UserMessage
 from azure.core.credentials import AzureKeyCredential
 
+# Load environment variables
 load_dotenv()
 
 # ENV CONFIG
@@ -20,43 +21,33 @@ TYPESENSE_API_KEY = os.getenv("TYPESENSE_API_KEY")
 TYPESENSE_HOST = os.getenv("TYPESENSE_HOST")
 TYPESENSE_PORT = int(os.getenv("TYPESENSE_PORT"))
 TYPESENSE_PROTOCOL = os.getenv("TYPESENSE_PROTOCOL")
-
 NOMIC_API_KEY = os.getenv("NOMIC_API_KEY")
-NOMIC_URL = "https://api-atlas.nomic.ai/v1/embedding/text"
-NOMIC_MODEL = "nomic-embed-text-v1.5"
-
+AIPIPE_TOKEN = os.getenv("AIPIPE_TOKEN")
 
 COLLECTION_NAME = "tds_chunks"
 TOP_K = 5
-EMBED_DIM = 768
+NOMIC_URL = "https://api-atlas.nomic.ai/v1/embedding/text"
+NOMIC_MODEL = "nomic-embed-text-v1.5"
+AIPIPE_URL = "https://aipipe.org/openrouter/v1/chat/completions"
+AIPIPE_MODEL = "google/gemini-2.0-flash-lite-001"
 
-# FASTAPI INIT
+# FastAPI init
 app = FastAPI(title="Hybrid RAG + AIpipe API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], allow_methods=["*"], allow_headers=["*"],
 )
 
-# TYPESENSE INIT
-import os
-import typesense
-
+# Typesense init
 typesense_client = typesense.Client({
     "nodes": [{
-        "host": os.getenv("TYPESENSE_HOST"),      # your-instance.a1.typesense.net
-        "port": int(os.getenv("TYPESENSE_PORT")), # usually 443
-        "protocol": os.getenv("TYPESENSE_PROTOCOL")  # "https"
+        "host": TYPESENSE_HOST,
+        "port": TYPESENSE_PORT,
+        "protocol": TYPESENSE_PROTOCOL
     }],
-    "api_key": os.getenv("TYPESENSE_API_KEY"),
+    "api_key": TYPESENSE_API_KEY,
     "connection_timeout_seconds": 10
 })
-
-
-
-AIPIPE_TOKEN = os.getenv("AIPIPE_TOKEN")
-AIPIPE_URL = "https://aipipe.org/openrouter/v1/chat/completions"
-AIPIPE_MODEL = "google/gemini-2.0-flash-lite-001"
-
 
 class QueryRequest(BaseModel):
     question: str
@@ -88,16 +79,27 @@ def search_typesense_vector(query_vector, top_k=TOP_K):
         ]
     }
     response = typesense_client.multi_search.perform(search_parameters)
-    return response["results"][0]["hits"]
+    hits = response["results"][0]["hits"]
 
+    print(f"\n[INFO] Retrieved {len(hits)} chunks from Typesense:")
+    for i, hit in enumerate(hits):
+        text = hit['document'].get("text", "")[:150].replace("\n", " ").strip()
+        url = hit['document'].get("url", "N/A")
+        print(f"Chunk {i+1}: {text}\n→ {url}\n")
 
-
-
-
-
+    return hits
 
 # --- PROMPT BUILDER ---
 def build_prompt(user_q: str, chunks: List[dict]) -> str:
+    if not chunks:
+        return f"""
+You are a helpful assistant. No relevant context was found for the following question:
+
+{user_q}
+
+Respond with: \"Sorry, I could not find any course content related to your question.\"
+""".strip()
+
     context_texts = []
     for chunk in chunks:
         doc = chunk["document"]
@@ -115,15 +117,19 @@ def build_prompt(user_q: str, chunks: List[dict]) -> str:
             },
             {
                 "url": "https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939/3",
-                "text": "My understanding is that you just have to use a tokenizer, similar to what Prof. Anand used, to get the number of tokens and multiply that by the given rate."
+                "text": "My understanding is that you just have to use a tokenizer..."
             }
         ]
     }
 
     return f"""
-You are a helpful educational assistant for data-science learners.
+You are a helpful AI assistant for data-science learners.
 
-Use ONLY the context below to answer the question. Provide a JSON response with an "answer" field and a "links" array containing exactly 2 helpful references (url + short summary).
+ONLY use the context below to answer the question. Do not make up facts. If the context doesn’t contain an answer, say so.
+
+Return a JSON with:
+- \"answer\": a helpful sentence based ONLY on context
+- \"links\": exactly 2 helpful references (from the context, with URL + 1-line summary)
 
 Context:
 {context}
@@ -131,10 +137,8 @@ Context:
 Question:
 {user_q}
 
-Respond ONLY with a JSON object EXACTLY in this format:
+Respond with ONLY this JSON format:
 {json.dumps(sample_response, indent=2)}
-
-Do NOT add markdown, explanations, or extra formatting. Output only the JSON object.
 """.strip()
 
 # --- JSON EXTRACTOR ---
@@ -152,10 +156,6 @@ def parse_llm_response(raw_text: str):
         return {"answer": raw_text.strip(), "links": []}
 
 # --- MAIN API ---
-
-
-from fastapi import UploadFile, File, Form, Request
-
 @app.post("/api/")
 async def rag_answer(
     request: Request,
@@ -163,7 +163,6 @@ async def rag_answer(
     image: Optional[UploadFile] = File(None)
 ):
     try:
-        # Handle application/json
         if request.headers.get("content-type", "").startswith("application/json"):
             data = await request.json()
             question = data.get("question", question)
@@ -171,20 +170,18 @@ async def rag_answer(
         if not question and not image:
             raise HTTPException(status_code=400, detail="No question or image provided.")
 
-        # Embed and search
         embedding = embed_with_nomic(question)
         chunks = search_typesense_vector(embedding, top_k=TOP_K)
         prompt = build_prompt(question, chunks)
 
-        # Call AI Pipe API
         response = requests.post(
-            "https://aipipe.org/openrouter/v1/chat/completions",
+            AIPIPE_URL,
             headers={
-                "Authorization": f"Bearer {os.getenv('AIPIPE_TOKEN')}",
+                "Authorization": f"Bearer {AIPIPE_TOKEN}",
                 "Content-Type": "application/json",
             },
             json={
-                "model": "google/gemini-2.0-flash-lite-001",
+                "model": AIPIPE_MODEL,
                 "messages": [
                     {"role": "user", "content": prompt}
                 ]
@@ -200,10 +197,6 @@ async def rag_answer(
         traceback.print_exc()
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=10000)
-
-
-
