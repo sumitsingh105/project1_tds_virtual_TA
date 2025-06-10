@@ -6,7 +6,7 @@ prompts:
 providers:
   - id: https
     config:
-      url: http://127.0.0.1:8000/api/
+      url: https://project1-tds-virtual-ta.onrender.com/api/
       method: POST
       headers:
         Content-Type: application/json
