@@ -19,7 +19,7 @@ start_date = datetime(2025, 1, 1, tzinfo=timezone.utc)
 end_date = datetime(2025, 4, 15, 23, 59, 59, tzinfo=timezone.utc)
 
 session = requests.Session()
-session.cookies.set("_t", DISCOURSE_COOKIE, domain="discourse.onlinedegree.iitm.ac.in")
+session.cookies.set("_t", "LTnP0yHGtmgsT8af52EcsbkC4nf5LCIo%2BcblrrbOoZz1Os%2B5q6JX00C%2BFdzlYyXgtbS405cxuw%2F1PCRH7p4aWjGGMIVofsRWFpbBH4UtXfnnL2R98h%2F4VAVouNLkiCsQBaQVzXrAP%2BE0BspfZhaQlJ2VSbjgxHSU%2BlGcEcd8VOqRZmFTShbtIZBtThHPJfXPLcusO16G%2BrHc%2FIUOfJqUqJHCLBErYPDw8lJnD4ulquzHGog6PHwD2dn6MZ397XKTlY3jw4OeLXuK%2BRSmDasXceB6LAXdHnz4yGgStf3zdbo9QzU6atMdet%2Fd6S6rv2ch4SokpQ%3D%3D--Nudj1zIGR9sbvBUH--2UlNKm5qZVPITioLUk%2FZnQ%3D%3D", domain="discourse.onlinedegree.iitm.ac.in")
 session.headers.update({"User-Agent": "Mozilla/5.0"})
 
 def get_topic_ids():
@@ -86,6 +86,16 @@ def get_thread_posts(topic_id, topic_title, category_id):
             soup = BeautifulSoup(post["cooked"], "html.parser")
             content = soup.get_text(separator="\n").strip()
 
+            # Extract all image URLs
+            image_urls = []
+            for img in soup.find_all("img"):
+                src = img.get("src")
+                if src:
+                    # Convert relative URLs to absolute
+                    if src.startswith("/"):
+                        src = BASE_URL + src
+                    image_urls.append(src)
+
             post_data = {
                 "id": post["id"],
                 "topic_id": post["topic_id"],
@@ -95,6 +105,7 @@ def get_thread_posts(topic_id, topic_title, category_id):
                 "username": post["username"],
                 "post_number": post["post_number"],
                 "content": content,
+                "images": image_urls,
                 "created_at": post["created_at"],
                 "context": extract_context(posts_data, i)
             }
@@ -108,6 +119,7 @@ def get_thread_posts(topic_id, topic_title, category_id):
         time.sleep(0.3)
 
     return all_posts
+
 
 def scrape_all_posts():
     topics = get_topic_ids()
@@ -128,6 +140,6 @@ def save_json(data, path):
 if __name__ == "__main__":
     print("🔍 Scraping Discourse posts without images...")
     all_posts = scrape_all_posts()
-    output_path = "tds_discourse_rich_thread_aware_no_images1.json"
+    output_path = "tds_discourse_rich_thread_aware_images_url.json"
     save_json(all_posts, output_path)
     print(f"\n✅ Saved {len(all_posts)} posts to {output_path}")

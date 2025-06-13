@@ -15,8 +15,8 @@ if not (NOMIC_API_KEY and TYPESENSE_API_KEY):
     raise RuntimeError("Missing NOMIC_API_KEY or TYPESENSE_API_KEY in .env")
 
 EMBED_DIM         = 768
-COLLECTION_NAME   = "tds_chunks"
-DATA_FILE         = "/Users/sumitsingh/Desktop/IIT_Madras/TDS/Project1_TDS_Virtial_TA/data/combined_tds_rag_data2.json"
+COLLECTION_NAME   = "tds_index_embed_chunks"
+DATA_FILE         = "/Users/sumitsingh/Desktop/IIT_Madras/TDS/Project1_TDS_Virtial_TA/scraping_scripts/Combined_course_and_discourse_data.json"
 BATCH_SIZE        = 32
 MAX_TEXT_LENGTH   = 5000
 
@@ -98,7 +98,29 @@ print(f"Indexing docs {START_INDEX} to {END_INDEX}...")
 for start in range(0, len(batch_docs), BATCH_SIZE):
     batch = batch_docs[start:start + BATCH_SIZE]
     try:
-        embeddings = get_embeddings([d["text"][:MAX_TEXT_LENGTH] for d in batch])
+        def combine_text_and_image_descriptions(d):
+            base_text = d.get("text", "").strip()
+        
+            # Get image list depending on source
+            image_entries = []
+            if "image_urls" in d.get("metadata", {}):
+                image_entries = d["metadata"]["image_urls"]
+            elif "images" in d.get("metadata", {}):
+                image_entries = d["metadata"]["images"]
+        
+            # Extract descriptions
+            descriptions = []
+            for img in image_entries:
+                desc = img.get("description")
+                if desc:
+                    descriptions.append(desc.strip())
+        
+            # Combine base text and image descriptions
+            combined = base_text + "\n\n" + "\n\n".join(descriptions)
+            return combined.strip()[:MAX_TEXT_LENGTH]
+        
+        embeddings = get_embeddings([combine_text_and_image_descriptions(d) for d in batch])
+        
     except RuntimeError as e:
         print(f"❌ Skipping batch {start}: {e}")
         continue
