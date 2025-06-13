@@ -90,10 +90,6 @@ def search_typesense_vector(query_vector, top_k=TOP_K):
 
 
 
-
-
-
-
 # --- PROMPT BUILDER ---
 def build_prompt(user_q: str, chunks: List[dict]) -> str:
     context_texts = []
