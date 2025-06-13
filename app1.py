@@ -228,7 +228,7 @@ async def rag_answer(
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app:app", host="0.0.0.0", port=10000)
+    uvicorn.run("app1:app", host="0.0.0.0", port=10000)
 
 
 
