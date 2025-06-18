@@ -15,19 +15,7 @@ This project is a Virtual Teaching Assistant (TA) designed for the **Tools for D
 
 ---
 
-## ⚙️ Project Structure
-project-root/
-├── app/ # FastAPI backend
-│ ├── main.py # Entry point
-│ ├── api.py # /api/ endpoint
-│ ├── build_prompt.py # Builds structured prompts
-│ ├── loader.py # Load and index documents
-│ └── ... # Additional utilities
-├── test/ # promptfoo test suite
-│ └── test1.yaml
-├── data/ # Indexed or raw content
-├── requirements.txt
-└── README.md # This file
+<pre><code>## ⚙️ Project Structure ``` project-root/ ├── app/ # FastAPI backend │ ├── main.py # Entry point │ ├── api.py # /api/ endpoint │ ├── build_prompt.py # Builds structured prompts │ ├── loader.py # Load and index documents │ └── ... # Additional utilities ├── test/ # promptfoo test suite │ └── test1.yaml ├── data/ # Indexed or raw content ├── requirements.txt └── README.md # This file ``` </code></pre>
 
 
 ---
