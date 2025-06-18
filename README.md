@@ -45,10 +45,10 @@ project-root/
 
 - ✅ Instructions
   - Run permissions for the script:
-  - chmod +x run_indexing_batches.sh
+   - chmod +x run_indexing_batches.sh
 
   - Execute it:
-  - ./run_indexing_batches.sh
+   - ./run_indexing_batches.sh
 
 
 ---
