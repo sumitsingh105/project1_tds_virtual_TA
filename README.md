@@ -26,8 +26,10 @@ project-root/
 │   ├── loader.py         # Load and index documents
 │   └── ...               # Additional utilities
 ├── test/                 # promptfoo test suite
-│   └── test1.yaml
+│   └── test_app.yaml
 ├── data/                 # Indexed or raw content
+├── Final_Scripts/        # To scrape and Indexing/Embedding
+├── Final_data/           # To scraped and embedded data
 ├── requirements.txt
 └── README.md             # This file
 ```
