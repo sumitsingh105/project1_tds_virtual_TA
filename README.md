@@ -43,6 +43,16 @@ project-root/
 - run_indexing_batches.sh
 - typesense_indexer_range.py
 
+- ✅ Instructions
+  - Run permissions for the script:
+bash
+chmod +x run_indexing_batches.sh
+
+	- Execute it:
+bash
+./run_indexing_batches.sh
+
+
 ---
 
 ## 🚀 Running Locally
